@@ -4,8 +4,12 @@ import { courses } from '../data/courses.js';
 import { icon } from './icons.js';
 import { Button, esc } from './primitives.js';
 
-const isCurrent = (href, path) =>
-  href === path || (href !== '/' && path.startsWith(href.replace('.html', '')));
+/** Which top-level item a path belongs to. Course pages belong to the Academy. */
+const isCurrent = (href, path) => {
+  if (href === path) return true;
+  if (href === '/academy.html' && path.startsWith('/courses/')) return true;
+  return href !== '/' && path.startsWith(href.replace('.html', ''));
+};
 
 const megaCourses = () => `
   <div class="megamenu">
@@ -33,7 +37,7 @@ const desktopItem = (item, path) => {
   const current = isCurrent(item.href, path);
   const hasPanel = item.mega || item.children;
   return `
-    <li class="nav__item" style="${hasPanel ? 'position:static' : 'position:relative'}">
+    <li class="nav__item${item.mega ? ' nav__item--mega' : ''}">
       <a class="nav__link" href="${esc(item.href)}" ${current ? 'aria-current="page"' : ''}>
         ${esc(item.label)}
         ${hasPanel ? `<span class="nav__chev">${icon.chevronDown({ size: 14 })}</span>` : ''}

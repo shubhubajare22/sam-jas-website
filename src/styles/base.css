@@ -25,6 +25,14 @@ body {
 
 img, svg, video { display: block; max-width: 100%; height: auto; }
 
+/* Author `display` values (grid, flex…) would otherwise beat the browser's own
+   [hidden] { display: none } — which is exactly how the filters toggled an
+   attribute with no visible effect. This makes `hidden` mean hidden, everywhere. */
+[hidden] { display: none !important; }
+
+/* Skip-link target: focusable without a ring of its own. */
+main:focus { outline: none; }
+
 h1, h2, h3, h4 {
   font-family: var(--font-display);
   font-weight: 500;
@@ -142,6 +150,9 @@ li { list-style: none; }
 
 /* Numerals in tables and stats never jitter */
 .tnum { font-variant-numeric: tabular-nums; }
+
+/* Live result count beside a filter — visible to everyone, announced to screen readers */
+.result-count { font-size: var(--fs-sm); color: var(--text-muted); font-variant-numeric: tabular-nums; margin: 0; min-height: 1.5em; }
 
 /* ---- Section header ----------------------------------------------------- */
 .section-head {

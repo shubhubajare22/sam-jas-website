@@ -146,6 +146,8 @@
   position: relative;
   transition: color var(--dur-fast) var(--ease-out);
 }
+.nav__item { position: relative; display: flex; align-items: center; height: var(--header-h); }
+.nav__item--mega { position: static; }   /* its panel is centred on the header, not the item */
 .nav__link::after {
   content: '';
   position: absolute;
@@ -163,13 +165,14 @@
 .nav__chev { transition: transform var(--dur-fast) var(--ease-out); }
 .nav__item:hover .nav__chev, .nav__item:focus-within .nav__chev { transform: rotate(180deg); }
 
-/* Dropdown / mega panel */
+/* Dropdown / mega panel — hangs 6px into the header so the pointer never crosses
+   a gap between trigger and panel. */
 .nav__panel {
   position: absolute;
-  top: calc(var(--header-h) - 10px);
+  top: calc(var(--header-h) - 6px);
   left: 50%;
   translate: -50% 0;
-  width: min(var(--container), calc(100vw - var(--gutter) * 2));
+  width: min(var(--container), calc(100% - var(--gutter) * 2));   /* 100% of the header: excludes the scrollbar, unlike 100vw */
   background: var(--ink-2);
   border: 1px solid var(--line-ink);
   border-radius: var(--radius-lg);
@@ -183,12 +186,12 @@
     transform var(--dur) var(--ease-out),
     visibility 0s linear var(--dur);
 }
-.nav__item:hover > .nav__panel,
-.nav__item:focus-within > .nav__panel {
-  opacity: 1; visibility: visible; transform: none;
-  transition-delay: 0s;
+.nav__item:focus-within > .nav__panel { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
+/* Hover opens panels only on devices that actually hover; on touch the link simply navigates. */
+@media (hover: hover) {
+  .nav__item:hover > .nav__panel { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
 }
-.nav__panel--sm { width: 20rem; left: 0; translate: 0 0; }
+.nav__panel--sm { width: 20rem; left: 0.95rem; translate: 0 0; }
 
 .megamenu { display: grid; gap: var(--space-4); grid-template-columns: 15rem 1fr; }
 .megamenu__aside { border-right: 1px solid var(--line-ink); padding-right: var(--space-4); }
@@ -332,11 +335,12 @@ body.is-nav-open { overflow: hidden; }
   overflow: hidden;
   transition: border-color var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out), transform var(--dur) var(--ease-out);
 }
-.card:hover { border-color: var(--line-strong); box-shadow: var(--shadow-card); transform: translateY(-3px); }
+.card:hover { border-color: var(--line-strong); box-shadow: var(--shadow-card); }
 
 /* Course card — editorial, not a box with a photo */
 .course-card {
   position: relative;
+  overflow: hidden;                    /* the scarlet rule below follows the rounded corners */
   display: grid;
   grid-template-rows: auto 1fr auto;
   gap: var(--space-2);
@@ -361,7 +365,6 @@ body.is-nav-open { overflow: hidden; }
 .course-card:hover, .course-card:focus-within {
   border-color: var(--line-strong);
   box-shadow: var(--shadow-card);
-  transform: translateY(-4px);
 }
 .course-card:hover::before, .course-card:focus-within::before { transform: scaleX(1); }
 .course-card__top { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); }
@@ -431,7 +434,8 @@ body.is-nav-open { overflow: hidden; }
   transition: color var(--dur-fast) var(--ease-out), background-color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
 }
 .chip:hover { color: var(--text); border-color: var(--text); }
-.chip[aria-pressed='true'] { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
+.chip[aria-pressed='true'],
+.chip[aria-pressed='true']:hover { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
 .chip__count { font-variant-numeric: tabular-nums; opacity: 0.6; font-size: 0.75rem; }
 
 /* ---- Accordion ---------------------------------------------------------- */
@@ -454,7 +458,8 @@ body.is-nav-open { overflow: hidden; }
   letter-spacing: var(--track-display);
   color: var(--text);
 }
-.accordion__icon { flex: none; margin-top: 0.3rem; color: var(--scarlet); transition: transform var(--dur) var(--ease-out); }
+.accordion__btn:hover, .accordion__btn:hover .accordion__icon { color: var(--scarlet-text); }
+.accordion__icon { flex: none; margin-top: 0.3rem; color: var(--scarlet-text); transition: transform var(--dur) var(--ease-out), color var(--dur-fast) var(--ease-out); }
 .accordion__btn[aria-expanded='true'] .accordion__icon { transform: rotate(45deg); }
 .accordion__panel { overflow: hidden; }
 .accordion__panel > div { padding: 0 0 1.5rem; color: var(--text-muted); max-width: var(--measure); }
@@ -480,7 +485,7 @@ body.is-nav-open { overflow: hidden; }
 textarea.field__control { min-height: 8rem; resize: vertical; line-height: 1.6; }
 select.field__control { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2355555f' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.75rem; }
 .field__control:hover { border-color: var(--text-faint); }
-.field__control:focus-visible { border-color: var(--ink); outline: 3px solid var(--focus); outline-offset: 1px; }
+.field__control:focus-visible { border-color: var(--focus); outline: 2px solid var(--focus); outline-offset: 0; }
 .field__control[aria-invalid='true'] { border-color: var(--scarlet); }
 .field__error { display: flex; align-items: flex-start; gap: 0.4em; font-size: 0.8125rem; font-weight: 500; color: var(--scarlet-deep); }
 .field__error[hidden] { display: none; }
@@ -574,7 +579,7 @@ select.field__control { appearance: none; background-image: url("data:image/svg+
   box-shadow: var(--shadow-pop);
   transition: transform var(--dur) var(--ease-out), background-color var(--dur-fast) var(--ease-out);
 }
-.wa-float:hover { background: #0a5d53; transform: translateY(-2px); }
+.wa-float:hover { background: #0a5d53; }
 /* Hidden near the foot of the page, where the footer already carries the same links
    and the button would otherwise sit on top of them. */
 .wa-float.is-hidden { opacity: 0; visibility: hidden; transform: translateY(8px); }

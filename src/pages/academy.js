@@ -39,7 +39,7 @@ ${PageHero({
         )
         .join('')}
     </div>
-    <p class="visually-hidden" role="status" aria-live="polite" data-course-count></p>
+    <p class="result-count" role="status" aria-live="polite" data-course-count>${courses.length} courses shown</p>
 
     <div class="course-grid">
       ${courses.map((c, i) => CourseCard(c, i)).join('')}

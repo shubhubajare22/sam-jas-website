@@ -166,7 +166,8 @@
   isolation: isolate;
   transition: transform var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out);
 }
-.pillar:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.28); }
+.pillar:hover { border-color: rgba(255,255,255,0.32); background: #1b1b20; }
+.pillar--feature:hover { background: var(--scarlet-deep); border-color: var(--scarlet-deep); }
 .pillar__num { font-family: var(--font-display); font-size: 0.875rem; color: var(--scarlet-on-ink); font-variant-numeric: tabular-nums; }
 .pillar__title { font-family: var(--font-display); font-size: clamp(1.75rem, 1.3rem + 1.8vw, 2.5rem); line-height: 1.05; letter-spacing: var(--track-display); margin: 0; }
 .pillar__body { font-size: var(--fs-sm); color: var(--on-ink-muted); margin: 0; }
@@ -429,7 +430,6 @@
 .menu-panel:hover, .menu-panel:focus-visible {
   border-color: var(--line-strong);
   box-shadow: var(--shadow-card);
-  transform: translateY(-4px);
 }
 .menu-panel:hover::before, .menu-panel:focus-visible::before { transform: scaleY(1); }
 .menu-panel__title {
@@ -475,6 +475,6 @@
   background: var(--surface);
   transition: border-color var(--dur) var(--ease-out), transform var(--dur) var(--ease-out);
 }
-.event-card:hover { border-color: var(--line-strong); transform: translateY(-3px); }
+.event-card:hover { border-color: var(--line-strong); box-shadow: var(--shadow-card); }
 .event-card__meta { font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--scarlet-text); }
 .event-card__name { font-family: var(--font-display); font-size: var(--fs-h3); letter-spacing: var(--track-display); margin: 0; }

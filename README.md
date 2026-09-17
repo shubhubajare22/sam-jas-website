@@ -78,6 +78,10 @@ and 1920 px** across all 10 page types (120 page × width combinations), with an
 audit measuring computed styles:
 
 - **No horizontal overflow** at any width, on any page.
+- **Hover and focus states**: measured by rewriting `:hover` to a class in a copy of the
+  stylesheet with transitions frozen, so the *end state* of every interactive element —
+  buttons, chips, cards, nav links, dropdown panels, links, the floating button — is
+  read from computed styles rather than eyeballed.
 - **Contrast**: every text node measured against its real composited background.
   All pass WCAG AA (4.5:1 body, 3:1 large). Four genuine failures were found and fixed
   during the build — see *Issues found and fixed* below.
@@ -127,6 +131,32 @@ Behaviour tested by driving the DOM:
 11. The WhatsApp float covered form controls and the footer's own social links. It is a
     compact circular button and stands down once the footer approaches.
 12. The text-link underline vanished on hover, which read as the link switching off.
+
+A second, element-by-element pass against the live site found a further set — the
+important lesson being that several earlier checks had verified attributes rather
+than rendered results:
+
+13. **Filtering did nothing visible.** Cards received the `hidden` attribute, but their
+    class set `display: grid`, which outranks the browser's own `[hidden] { display:
+    none }`. A global `[hidden] { display: none !important }` now makes `hidden` mean
+    hidden everywhere, and the tests check computed `display`, not the attribute.
+14. **The Salon and Franchise dropdowns opened at the left edge of the screen.** Their
+    `<li>` was `position: static` (needed only by the full-width Academy mega-menu), so
+    the panel positioned against the header. Small panels now hang from their trigger.
+15. Dropdown panels are gated to `@media (hover: hover)`, keyboard focus still opens
+    them, and Escape closes them.
+16. Cards lifted with `translateY` on hover, which moves the element out from under a
+    pointer near its edge and flickers. All hover lifts are now border and shadow only.
+17. A pressed filter chip lost its white text on hover.
+18. The salon deep links (`#women`, `#men`, `#bridal`) pointed at marker elements that
+    moved when a panel was hidden, so the page landed in the wrong place. The tab
+    strip now answers to those hashes and scrolls itself into view.
+19. `404.html` is served for *any* missing path, so page-relative URLs broke its styles
+    and links on deep paths. It alone is built with root-absolute URLs (`SITE_BASE`).
+20. Filter result counts are now visible text, not only a screen-reader live region;
+    phone numbers are formatted consistently; course pages mark Academy as current;
+    the enquiry button is truly disabled while sending; the search field has a single
+    clean focus ring; the accordion has a hover state.
 
 Every page was also reviewed visually at 1440 px, section by section, and on a 375 px
 phone viewport. That pass is what found the caption-on-scarlet collision, the muddy

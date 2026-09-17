@@ -21,6 +21,21 @@ const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   update();
 })();
 
+/* ---------- Desktop dropdowns: Escape closes -------------------------------- */
+(() => {
+  const nav = $('.nav');
+  if (!nav) return;
+  nav.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    const item = e.target.closest('.nav__item');
+    if (!item) return;
+    // Return focus to the trigger; :focus-within on the panel drops and it closes.
+    item.querySelector('.nav__link')?.focus();
+    // A focused trigger keeps :focus-within true, so blur it too.
+    document.activeElement?.blur();
+  });
+})();
+
 /* ---------- Mobile navigation -------------------------------------------- */
 (() => {
   const panel = $('[data-mobilenav]');
@@ -173,10 +188,28 @@ const $$ = (s, r = document) => [...r.querySelectorAll(s)];
         if (next) { e.preventDefault(); select(next); next.focus(); }
       });
     });
-    // Deep link: /salon.html#men selects the men's tab
-    const hash = location.hash.slice(1);
-    const target = hash && tabs.find((t) => t.getAttribute('aria-controls') === `panel-${hash}`);
-    if (target) select(target);
+    // Deep link: /salon.html#men selects the men's tab; #bridal maps to women's.
+    // The list's data-tab-anchors names the hashes it answers to ("men", or "bridal:women").
+    const anchors = Object.fromEntries(
+      (list.dataset.tabAnchors || '')
+        .split(',')
+        .filter(Boolean)
+        .map((a) => a.split(':'))
+        .map(([hash, tab]) => [hash, tab || hash])
+    );
+    const openFromHash = (smooth) => {
+      const hash = location.hash.slice(1);
+      const tabName = anchors[hash];
+      const target = tabName && tabs.find((t) => t.getAttribute('aria-controls') === `panel-${tabName}`);
+      if (!target) return;
+      select(target);
+      // Land on the tab strip itself; scroll-padding keeps it clear of the fixed header.
+      // Instant on load, like the browser's own anchor jump; smooth only for in-page hash changes.
+      // 'auto' would defer to the page's CSS scroll-behavior (smooth) — 'instant' is the real no-animation value.
+      list.scrollIntoView({ block: 'start', behavior: smooth && !reduced.matches ? 'smooth' : 'instant' });
+    };
+    openFromHash(false);
+    addEventListener('hashchange', () => openFromHash(true));
   });
 })();
 
@@ -326,7 +359,7 @@ const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
       summary.hidden = true;
       const btn = form.querySelector('button[type="submit"]');
-      btn.setAttribute('aria-disabled', 'true');
+      btn.disabled = true;
       btn.textContent = 'Sending…';
 
       // Prototype: no backend is wired up. Say so honestly.

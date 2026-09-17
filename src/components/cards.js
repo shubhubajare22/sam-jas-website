@@ -1,6 +1,6 @@
 /** Content cards: courses, pillars, locations, events, franchise models. */
 import { icon } from './icons.js';
-import { esc, Badge, Link } from './primitives.js';
+import { esc, Badge, Link, formatPhone } from './primitives.js';
 
 export const CourseCard = (course, index = 0) => `
   <a class="course-card" href="/courses/${esc(course.slug)}.html"
@@ -57,9 +57,7 @@ export const LocationCard = (loc, i = 0) => {
       ${loc.phones
         .map(
           (p) =>
-            `<a class="btn btn--ghost btn--sm" href="tel:${esc(p)}">${icon.phone({ size: 13 })}&nbsp;${esc(
-              p.replace(/^\+91/, '+91 ')
-            )}</a>`
+            `<a class="btn btn--ghost btn--sm" href="tel:${esc(p)}">${icon.phone({ size: 13 })}&nbsp;${esc(formatPhone(p))}</a>`
         )
         .join('')}
       <a class="btn btn--ghost btn--sm" href="https://www.google.com/maps/search/?api=1&query=${mapQ}"

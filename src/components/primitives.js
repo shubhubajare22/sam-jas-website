@@ -5,6 +5,12 @@ import { icon } from './icons.js';
 export const esc = (s = '') =>
   String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
+/** +919920537343 -> +91 99205 37343 (Indian mobile grouping). Anything else is left alone. */
+export const formatPhone = (raw = '') => {
+  const m = String(raw).replace(/\s+/g, '').match(/^\+91(\d{5})(\d{5})$/);
+  return m ? `+91 ${m[1]} ${m[2]}` : raw;
+};
+
 export const attrs = (o = {}) =>
   Object.entries(o)
     .filter(([, v]) => v !== false && v != null && v !== '')

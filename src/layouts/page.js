@@ -47,7 +47,7 @@ ${jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script
 </head>
 <body class="${esc(bodyClass)}">
 ${Header({ path, solid: solidHeader })}
-<main id="main">
+<main id="main" tabindex="-1">
 ${body}
 </main>
 ${Footer()}

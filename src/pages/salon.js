@@ -1,6 +1,6 @@
 import { Page } from '../layouts/page.js';
 import { PageHero } from '../components/pagehero.js';
-import { SectionHead, Button, Link, esc } from '../components/primitives.js';
+import { SectionHead, Button, Link, esc, formatPhone } from '../components/primitives.js';
 import { CtaBand } from '../components/cards.js';
 import { icon } from '../components/icons.js';
 import { salonMenus } from '../data/salon.js';
@@ -60,16 +60,13 @@ ${PageHero({
       aside: '',
     })}
 
-    <div class="tabs" role="tablist" aria-label="Salon service menus">
+    <div class="tabs" role="tablist" aria-label="Salon service menus" id="menus" data-tab-anchors="women,men,bridal:women">
       <button class="tab" role="tab" id="tab-women" aria-controls="panel-women" aria-selected="true" tabindex="0">For Women</button>
       <button class="tab" role="tab" id="tab-men" aria-controls="panel-men" aria-selected="false" tabindex="-1">For Men</button>
     </div>
 
-    <span id="women" style="display:block;height:0"></span>
     ${menuPanel(salonMenus.women, true)}
-    <span id="men" style="display:block;height:0"></span>
     ${menuPanel(salonMenus.men, false)}
-    <span id="bridal" style="display:block;height:0"></span>
   </div>
 </section>
 
@@ -121,7 +118,7 @@ ${PageHero({
           <p class="loc__addr">${esc(l.address)}</p>
           <div class="loc__links">
             ${l.phones
-              .map((p) => `<a class="btn btn--ghost btn--sm" href="tel:${esc(p)}">${icon.phone({ size: 13 })}&nbsp;${esc(p)}</a>`)
+              .map((p) => `<a class="btn btn--ghost btn--sm" href="tel:${esc(p)}">${icon.phone({ size: 13 })}&nbsp;${esc(formatPhone(p))}</a>`)
               .join('')}
             <a class="btn btn--ghost btn--sm" target="_blank" rel="noopener"
                href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(l.address)}">

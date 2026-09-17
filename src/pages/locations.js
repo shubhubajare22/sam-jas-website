@@ -42,7 +42,7 @@ ${PageHero({
       </div>
     </div>
 
-    <p class="visually-hidden" role="status" aria-live="polite" data-loc-count></p>
+    <p class="result-count" role="status" aria-live="polite" data-loc-count style="margin-bottom:var(--space-3)">${locationStats.total} locations shown</p>
 
     <div class="loc-grid">
       ${locations.map((l, i) => LocationCard(l, i)).join('')}

@@ -24,6 +24,8 @@ jobs:
           node-version: 20
       - name: Build the site
         run: node build.mjs
+        env:
+          SITE_BASE: /sam-jas-website/
       - name: Disable Jekyll processing
         run: touch dist/.nojekyll
       - uses: actions/upload-pages-artifact@v3

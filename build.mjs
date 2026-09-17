@@ -28,10 +28,22 @@ const relativise = (html, rel) => {
     .replace(/(\s(?:href|src|content)=")\/(?!\/)/g, (_m, lead) => `${lead}${prefix}`);
 };
 
+/**
+ * The 404 page is served by the host for *any* missing path, so page-relative URLs
+ * would resolve against whatever directory the visitor typed. It alone gets
+ * root-absolute URLs under SITE_BASE ("/" locally, "/sam-jas-website/" on Pages).
+ */
+const SITE_BASE = (process.env.SITE_BASE || '/').replace(/\/?$/, '/');
+const absolutise = (html) =>
+  html
+    .replace(/(\s(?:href|src)=")\/(")/g, (_m, lead, tail) => `${lead}${SITE_BASE}${tail}`)
+    .replace(/(\s(?:href|src|content)=")\/(?!\/)/g, (_m, lead) => `${lead}${SITE_BASE}`);
+
 const write = async (rel, contents) => {
   const out = join(dist, rel);
   await mkdir(dirname(out), { recursive: true });
-  await writeFile(out, rel.endsWith('.html') ? relativise(contents, rel) : contents);
+  const html = rel === '404.html' ? absolutise(contents) : relativise(contents, rel);
+  await writeFile(out, rel.endsWith('.html') ? html : contents);
   return out;
 };
 
