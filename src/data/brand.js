@@ -12,7 +12,6 @@ export const founders = [
     role: 'Founder & Director',
     discipline: 'Hair',
     portrait: '/assets/jas-portrait.jpg',
-    cutout: '/assets/jas-cutout.png',
     lede: 'Twenty-four years in hair, and a technical director who still teaches.',
     body: [
       'Jas Sir is an epitome of creativity in the art of hair styling. His passion for this art, and his experience and knowledge of the science behind it, have made him an extraordinary yet humble artist in the field.',
@@ -27,7 +26,6 @@ export const founders = [
     role: 'Founder & Director',
     discipline: 'Hair & Makeup',
     portrait: '/assets/sam-portrait.jpg',
-    cutout: '/assets/sam-cutout.png',
     lede: 'Twenty years in hair and makeup, and a mentor to every student who walks in.',
     body: [
       'Sam Ma’am brings 20 years of experience in hair and makeup, trained and worked alongside top industry artists, with a creative mind and a mastery of the craft.',

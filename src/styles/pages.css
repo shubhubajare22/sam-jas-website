@@ -16,14 +16,16 @@
 .hero__arc {
   position: absolute;
   z-index: 0;
-  width: min(120vw, 70rem);
   aspect-ratio: 1;
   border-radius: 50%;
   background: var(--scarlet);
-  right: -22%;
-  bottom: -46%;
   opacity: 0.92;
   pointer-events: none;
+  /* Stacked layout: the arc sits behind the founders, not off the bottom of the
+     section — otherwise the brand colour disappears from the hero on a phone. */
+  width: min(105vw, 26rem);
+  right: -3%;
+  bottom: 19%;
 }
 @media (min-width: 900px) { .hero__arc { right: -4%; bottom: -34%; width: min(58vw, 52rem); } }
 
@@ -54,10 +56,7 @@
 .hero__actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
 
 .hero__figure { position: relative; align-self: end; margin-inline: auto; max-width: 34rem; }
-.hero__figure img {
-  width: 100%;
-  filter: drop-shadow(0 30px 60px rgba(0,0,0,0.45));
-}
+.hero__figure img { width: 100%; }
 @media (max-width: 899px) { .hero__figure { max-width: 24rem; } }
 
 /* Split strip under the hero — the Academy / Salon fork, above the fold on desktop */
@@ -131,7 +130,19 @@
 .stats--2 { grid-template-columns: 1fr; }
 @media (min-width: 420px) { .stats--2 { grid-template-columns: repeat(2, 1fr); } }
 :is(.section--ink, .pagehero) .stat { background: var(--ink); }
-.stat__value { font-family: var(--font-display); font-size: clamp(2.25rem, 1.6rem + 2.4vw, 3.5rem); line-height: 1; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+.stat__value {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 1.2rem + 1.8vw, 3rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
+}
+/* A figure like "₹50,000+" has to fit its own cell, not the viewport — sizing it
+   off the viewport overflowed the two-up grid inside a narrow column. */
+@supports (container-type: inline-size) {
+  .stat { container-type: inline-size; }
+  .stat__value { font-size: clamp(1.5rem, 17cqi, 3.25rem); }
+}
 .stat__label { font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.35rem; }
 .stat__note { font-size: 0.8125rem; color: var(--text-faint); margin: 0; }
 :is(.section--ink, .pagehero) .stat__note { color: var(--on-ink-faint); }

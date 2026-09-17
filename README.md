@@ -3,6 +3,12 @@
 A modern, mobile-first redesign of [samandjas.com](https://www.samandjas.com/), built as a
 presentation prototype for the business owner.
 
+**Live: https://shubhubajare22.github.io/sam-jas-website/**
+
+Every push to `main` rebuilds and redeploys through GitHub Actions
+(`.github/workflows/deploy.yml`). The demo is marked `noindex` and `robots.txt`
+disallows everything, so it cannot be mistaken for — or compete with — the live site.
+
 **This is a separate project.** It has no connection to the Sam & Jas SaaS application
 and shares no code, dependencies or git history with it.
 
@@ -67,9 +73,9 @@ Art direction: **Editorial Scarlet** — ink black, warm paper, one scarlet.
 
 ## What was verified, and how
 
-Checked in a real browser at **320, 375, 414, 768, 1024, 1440 and 1920 px** across all
-10 page types (70 page × width combinations), with an automated audit measuring
-computed styles:
+Checked in a real browser at **320, 360, 375, 414, 600, 768, 900, 1024, 1180, 1280, 1440
+and 1920 px** across all 10 page types (120 page × width combinations), with an automated
+audit measuring computed styles:
 
 - **No horizontal overflow** at any width, on any page.
 - **Contrast**: every text node measured against its real composited background.
@@ -104,17 +110,28 @@ Behaviour tested by driving the DOM:
    2.67:1 and eyebrows at 3.82:1. Fixed with `:is()` selectors covering all ink surfaces.
 3. Brand scarlet at 4.37:1 on the recessed paper band, and the WhatsApp green at 4.14:1.
    Both replaced with contrast-safe tokens.
-4. `₹50,000+` forced a horizontal scrollbar at 320 px. Two-up stat grids now collapse
-   to one column below 420 px.
+4. `₹50,000+` overflowed its grid. Stat figures now size against their own container
+   with a container query, not against the viewport.
 5. Mobile nav could strand focus on `<body>` when closed. Now falls back to the toggle.
+6. Text over scarlet used translucent white, which composites to about 4.0:1. The
+   contrast audit was extended to composite foreground alpha before measuring — that
+   is what caught it. All such text is now solid.
+7. The scarlet offset plate sat under a figure caption, rendering caption text on
+   scarlet. It is anchored to the top of the frame now and cannot reach a caption.
+8. The hero cutout carried a `drop-shadow`, which kept it on its own compositing layer
+   where it could miss the first painted frame. Removed.
+9. The hero's scarlet arc fell entirely outside the section on phones, so the brand
+   colour was missing from the mobile hero. Repositioned behind the founders.
+10. The method grid followed the viewport, rendering three cramped columns inside the
+    narrow column of a course page. It follows its container now.
+11. The WhatsApp float covered form controls and the footer's own social links. It is a
+    compact circular button and stands down once the footer approaches.
+12. The text-link underline vanished on hover, which read as the link switching off.
 
-### Not verified
-
-Full-page visual screenshots could not be captured reliably in this environment — the
-browser pane reported `visibilityState: "hidden"`, which freezes compositing, so
-captures came back as stale mid-transition frames. The hero was confirmed visually;
-everything else was verified through computed styles and DOM state as described above.
-**Open `npm run dev` and look at it.**
+Every page was also reviewed visually at 1440 px, section by section, and on a 375 px
+phone viewport. That pass is what found the caption-on-scarlet collision, the muddy
+pillar artwork, the white gutters in the events strip, the mis-cropped salon imagery,
+and the floating button sitting on top of a form control.
 
 ---
 
@@ -157,6 +174,20 @@ success message. Point it at an endpoint or a WhatsApp deep link to go live.
 ## Images
 
 Reused from the existing site for this private prototype: the founders' cutouts and
-portraits, the events collage, and the brand wordmark. The one commissioning decision
-worth making is **new photography** — the current images are the single biggest limit on
-how premium the site can look, and the layouts are built to carry better ones.
+portraits, the event photography, and the brand wordmark.
+
+The logo is the real one. `public/assets/` holds the Sam and Jas wordmark and the full
+lockup, extracted from the official brand banner at full resolution and chroma-keyed to
+transparency, in black and white variants — useful well beyond this site.
+
+The event photographs were recovered individually from the single collage strip the
+current site publishes, each cropped to its own bounds.
+
+Two things worth doing before launch:
+
+- **Commission new photography.** The existing images are the single biggest limit on how
+  premium this can look, and the layouts are built to carry better ones.
+- **Optimise the images.** The two founder cutouts are around 800 KB each as transparent
+  PNGs. Proper tooling (pngquant, or WebP with an AVIF fallback) would cut them by 60–70%
+  with no visible loss. It is deliberately not done here, because this project has no
+  dependencies and adding a build-time image pipeline was not worth it for a prototype.
