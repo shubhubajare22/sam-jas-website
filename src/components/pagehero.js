@@ -6,11 +6,11 @@ export const PageHero = ({ eyebrow, title, lede, crumbs, aside }) => `
   <div class="container">
     ${crumbs ? Crumbs(crumbs) : ''}
     <div class="pagehero__inner">
-      <div data-reveal>
+      <div>
         ${eyebrow ? Eyebrow(eyebrow) : ''}
         <h1 class="pagehero__title">${title}</h1>
       </div>
-      <div data-reveal style="--reveal-delay:90ms">
+      <div>
         ${lede ? `<p class="lede">${lede}</p>` : ''}
         ${aside || ''}
       </div>

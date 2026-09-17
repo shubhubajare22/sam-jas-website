@@ -12,8 +12,8 @@ export const Footer = () => `
     <div class="footer__grid">
 
       <div>
-        <img class="footer__lockup" src="/assets/lockup-white.png"
-             alt="Sam and Jas — Hair & Make-up Academy Pvt. Ltd." width="1421" height="304" loading="lazy">
+        <img class="footer__lockup" src="/assets/wordmark-white.png"
+             alt="Sam and Jas" width="1421" height="274" loading="lazy">
         <p class="small" style="color:var(--on-ink-muted);max-width:32ch">
           Hair and makeup academies and salons across India. Training online and offline since ${site.established}.
         </p>

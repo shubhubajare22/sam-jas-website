@@ -111,19 +111,27 @@ const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   items.forEach((el) => io.observe(el));
 })();
 
-/* ---------- Sticky mobile action bar -------------------------------------- */
+/* ---------- Floating affordances: action bar and WhatsApp ------------------ */
 (() => {
   const bar = $('[data-actionbar]');
-  if (!bar) return;
+  const wa = $('.wa-float');
+  const footer = $('.footer');
+  if (!bar && !wa) return;
   let ticking = false;
   const update = () => {
-    const nearBottom = window.scrollY + window.innerHeight > document.body.scrollHeight - 220;
-    bar.classList.toggle('is-visible', window.scrollY > 520 && !nearBottom);
+    const y = window.scrollY;
+    // Both float over the page, so both stand down once the footer is in view —
+    // the footer already carries the same phone number and WhatsApp link.
+    const footerTop = footer ? footer.getBoundingClientRect().top + y : Infinity;
+    const atFooter = y + window.innerHeight > footerTop + 80;
+    if (bar) bar.classList.toggle('is-visible', y > 520 && !atFooter);
+    if (wa) wa.classList.toggle('is-hidden', atFooter);
     ticking = false;
   };
   addEventListener('scroll', () => {
     if (!ticking) { ticking = true; requestAnimationFrame(update); }
   }, { passive: true });
+  addEventListener('resize', update, { passive: true });
   update();
 })();
 

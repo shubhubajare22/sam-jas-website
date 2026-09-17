@@ -1,6 +1,8 @@
 import { Page } from '../layouts/page.js';
 import { Button, Link, SectionHead, Stats, Eyebrow, esc } from '../components/primitives.js';
-import { CourseCard, Pillar, EventCard, MethodList, CtaBand } from '../components/cards.js';
+import { CourseCard, Pillar, EventCard, MenuPanel, MethodList, CtaBand } from '../components/cards.js';
+import { EventMarquee } from '../components/marquee.js';
+import { salonMenus } from '../data/salon.js';
 import { icon } from '../components/icons.js';
 import { courses } from '../data/courses.js';
 import { proofPoints, trainingMethod, differentiators, eventFormats, founders } from '../data/brand.js';
@@ -16,21 +18,21 @@ const body = `
   <span class="hero__arc" aria-hidden="true"></span>
   <div class="container hero__inner">
     <div class="hero__copy">
-      <p class="eyebrow" data-reveal>Academy · Salon · Franchise</p>
-      <h1 class="hero__title" data-reveal style="--reveal-delay:60ms">
+      <p class="eyebrow">Academy · Salon · Franchise</p>
+      <h1 class="hero__title">
         Learn the craft.<br><em>Wear the name.</em>
       </h1>
-      <p class="lede hero__lede" data-reveal style="--reveal-delay:140ms">
+      <p class="lede hero__lede">
         Hair and makeup training that starts wherever you are — and salons where the same
         standard is practised every day. Taught by Sam and Jas across ${locationStats.cities} cities.
       </p>
-      <div class="hero__actions" data-reveal style="--reveal-delay:220ms">
+      <div class="hero__actions">
         ${Button({ label: 'Explore courses', href: '/academy.html', variant: 'primary', size: 'lg' })}
         ${Button({ label: 'Book the salon', href: '/salon.html', variant: 'ghost', size: 'lg', iconRight: null, extra: { class: 'btn--ghost-ink' } })}
       </div>
     </div>
 
-    <figure class="hero__figure" data-reveal style="--reveal-delay:120ms">
+    <figure class="hero__figure">
       <img src="/assets/founders-duo.png" width="776" height="722" fetchpriority="high" decoding="async"
            alt="Jas Sir and Sam Ma'am, founders of Sam and Jas, holding scissors and a makeup brush">
     </figure>
@@ -84,7 +86,7 @@ const body = `
         ${founders
           .map(
             (f, i) => `
-        <figure class="figure figure--portrait${i === 1 ? ' figure--plated' : ''}" data-reveal style="--reveal-delay:${i * 100}ms">
+        <figure class="figure figure--portrait" data-reveal style="--reveal-delay:${i * 100}ms">
           <div class="figure__frame">
             <img src="${esc(f.portrait)}" width="1080" height="1920" loading="lazy" decoding="async"
                  alt="${esc(f.honorific)}, ${esc(f.role)} of Sam and Jas">
@@ -126,7 +128,6 @@ const body = `
           body: `${courses.length} courses in hair and makeup, from two-week specialisations to three-month diplomas. Online and offline. No formal education required to start.`,
           href: '/academy.html',
           cta: 'Explore courses',
-          art: '/assets/jas-cutout.png',
           feature: true,
         },
         0
@@ -213,39 +214,12 @@ const body = `
     ${SectionHead({
       eyebrow: 'The Salon',
       title: 'The same hands that teach it, doing it.',
-      lede: 'Cutting, styling, colour, chemical services and treatments — with separate menus for women and for men.',
+      lede: 'Cutting, styling, colour, chemical services and treatments — with a separate, complete menu for women and for men.',
       aside: `<div style="margin-top:var(--space-3)">${Button({ label: 'Full service menu', href: '/salon.html' })}</div>`,
     })}
-    <div class="split">
-      <a class="figure figure--tall" href="/salon.html#women" data-reveal style="text-decoration:none;color:inherit">
-        <div class="figure__frame">
-          <img src="/assets/sam-cutout.png" width="776" height="722" loading="lazy" decoding="async"
-               alt="Sam Ma'am holding a makeup brush and compact"
-               style="background:var(--paper-2)">
-        </div>
-        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-top:1rem">
-          <h3 style="font-size:var(--fs-h3)">For Women</h3>
-          <span class="link link--scarlet">Services ${icon.arrowRight({ size: 15 })}</span>
-        </div>
-        <p class="small muted" style="margin-top:.4rem">
-          Cutting and blow-dry · colour bar and balayage · smoothening, keratin and botox · spa and treatments · bridal and mehandi by appointment.
-        </p>
-      </a>
-
-      <a class="figure figure--tall" href="/salon.html#men" data-reveal style="--reveal-delay:100ms;text-decoration:none;color:inherit">
-        <div class="figure__frame">
-          <img src="/assets/jas-cutout.png" width="776" height="722" loading="lazy" decoding="async"
-               alt="Jas Sir styling with a hairdryer"
-               style="background:var(--paper-2)">
-        </div>
-        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:1rem;margin-top:1rem">
-          <h3 style="font-size:var(--fs-h3)">For Men</h3>
-          <span class="link link--scarlet">Services ${icon.arrowRight({ size: 15 })}</span>
-        </div>
-        <p class="small muted" style="margin-top:.4rem">
-          Cutting and kids' cuts · beard and moustache · colour and special effects · smoothening and keratin · treatments · groom's makeup.
-        </p>
-      </a>
+    <div class="grid-2">
+      ${MenuPanel({ title: 'For Women', href: '/salon.html#women', count: `${salonMenus.women.groups.reduce((n, g) => n + g.items.length, 0)} services`, categories: salonMenus.women.groups.map((g) => g.name), note: 'Bridal make-up and mehandi are taken on appointment only.' }, 0)}
+      ${MenuPanel({ title: 'For Men', href: '/salon.html#men', count: `${salonMenus.men.groups.reduce((n, g) => n + g.items.length, 0)} services`, categories: salonMenus.men.groups.map((g) => g.name), note: 'Groom’s make-up is available at the salon.' }, 1)}
     </div>
   </div>
 </section>
@@ -272,11 +246,8 @@ const body = `
         .join('')}
     </div>
   </div>
-  <div class="marquee" style="margin-top:var(--space-6)" aria-hidden="true">
-    <div class="marquee__track">
-      <img src="/assets/events-strip.jpg" width="1920" height="450" loading="lazy" decoding="async" alt="">
-      <img src="/assets/events-strip.jpg" width="1920" height="450" loading="lazy" decoding="async" alt="">
-    </div>
+  <div style="margin-top:var(--space-6)">
+    ${EventMarquee()}
   </div>
   <p class="container small" style="margin-top:1rem;color:var(--on-ink-faint)">
     Seminars, workshops and stage sessions conducted by Sam and Jas across India.

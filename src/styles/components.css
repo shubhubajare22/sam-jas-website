@@ -79,11 +79,10 @@
   left: 0; right: 0; bottom: 0;
   height: 1px;
   background: currentColor;
-  transform: scaleX(0.999);
-  transform-origin: right center;
-  transition: transform var(--dur) var(--ease-out);
+  opacity: 0.32;
+  transition: opacity var(--dur) var(--ease-out);
 }
-.link:hover::after { transform: scaleX(0); transform-origin: right center; }
+.link:hover::after, .link:focus-visible::after { opacity: 1; }
 .link--scarlet { color: var(--scarlet-text); }
 :is(.section--ink, .pagehero, .hero) .link--scarlet { color: var(--scarlet-on-ink); }
 .link .btn__icon { transition: transform var(--dur) var(--ease-out); }
@@ -409,8 +408,8 @@ body.is-nav-open { overflow: hidden; }
 }
 .badge--scarlet { background: var(--scarlet-soft); border-color: transparent; color: var(--scarlet-deep); }
 .badge--ink { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
-.badge--hair { color: #1f4f6b; background: #e4eef4; border-color: transparent; }
-.badge--makeup { color: #6b2a56; background: #f5e6f0; border-color: transparent; }
+.badge--discipline { gap: 0.45em; padding-left: 0.5rem; }
+.badge--discipline svg { color: var(--scarlet-text); }
 
 /* Filter chips — wrap before they shrink */
 .chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
@@ -564,8 +563,8 @@ select.field__control { appearance: none; background-image: url("data:image/svg+
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
-  min-height: 52px;
-  padding: 0.75rem 1.2rem;
+  width: 56px; height: 56px;
+  padding: 0;
   border-radius: 999px;
   background: #0e7468;                /* 5.4:1 with white text */
   color: #fff;
@@ -576,15 +575,29 @@ select.field__control { appearance: none; background-image: url("data:image/svg+
   transition: transform var(--dur) var(--ease-out), background-color var(--dur-fast) var(--ease-out);
 }
 .wa-float:hover { background: #0a5d53; transform: translateY(-2px); }
-.wa-float__label { display: none; }
-@media (min-width: 760px) {
-  .wa-float { bottom: var(--gutter); }
-  .wa-float__label { display: inline; }
-}
+/* Hidden near the foot of the page, where the footer already carries the same links
+   and the button would otherwise sit on top of them. */
+.wa-float.is-hidden { opacity: 0; visibility: hidden; transform: translateY(8px); }
+.wa-float__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+@media (min-width: 760px) { .wa-float { bottom: var(--gutter); } }
 
 /* ---- Marquee ------------------------------------------------------------ */
 .marquee { overflow: hidden; position: relative; }
-.marquee__track { display: flex; width: max-content; animation: marquee 60s linear infinite; }
-.marquee:hover .marquee__track { animation-play-state: paused; }
-.marquee img { height: clamp(140px, 22vw, 260px); width: auto; max-width: none; }
+.marquee__track { display: flex; width: max-content; animation: marquee 64s linear infinite; }
+.marquee:hover .marquee__track,
+.marquee:focus-within .marquee__track { animation-play-state: paused; }
+.marquee__group { display: flex; gap: var(--space-2); padding-right: var(--space-2); }
+.marquee__item { flex: none; border-radius: var(--radius); overflow: hidden; background: var(--ink-2); }
+.marquee__item img {
+  height: clamp(150px, 17vw, 240px);
+  width: auto;
+  max-width: none;
+  object-fit: cover;
+  display: block;
+}
 @keyframes marquee { from { transform: translate3d(0,0,0); } to { transform: translate3d(-50%,0,0); } }
+/* No animation: the strip becomes a plain horizontally scrollable row. */
+@media (prefers-reduced-motion: reduce) {
+  .marquee { overflow-x: auto; }
+  .marquee__track { width: auto; }
+}

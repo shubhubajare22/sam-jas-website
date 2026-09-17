@@ -10,7 +10,10 @@ export const CourseCard = (course, index = 0) => `
      data-mode="${esc(course.mode)}"
      data-reveal style="--reveal-delay:${Math.min(index, 5) * 60}ms">
     <div class="course-card__top">
-      ${Badge(course.discipline, course.discipline.toLowerCase())}
+      <span class="badge badge--discipline">
+        ${course.discipline === 'Hair' ? icon.scissors({ size: 13 }) : icon.brush({ size: 13 })}
+        ${esc(course.discipline)}
+      </span>
       <span class="course-card__index tnum">${String(index + 1).padStart(2, '0')}</span>
     </div>
     <div>
@@ -24,10 +27,9 @@ export const CourseCard = (course, index = 0) => `
     </div>
   </a>`;
 
-export const Pillar = ({ num, title, body, href, cta, art, feature = false }, i = 0) => `
+export const Pillar = ({ num, title, body, href, cta, feature = false }, i = 0) => `
   <a class="pillar${feature ? ' pillar--feature' : ''}" href="${esc(href)}"
      data-reveal style="--reveal-delay:${i * 90}ms">
-    ${art ? `<span class="pillar__art" style="background-image:url('${esc(art)}')" aria-hidden="true"></span>` : ''}
     <span class="pillar__num tnum">${esc(num)}</span>
     <div>
       <h3 class="pillar__title">${esc(title)}</h3>
@@ -85,6 +87,19 @@ export const ModelCard = (m, i = 0) => `
     <p class="small muted" style="margin:0;padding-top:.5rem">${esc(m.forWhom)}</p>
   </article>`;
 
+export const MenuPanel = ({ title, href, count, categories, note }, i = 0) => `
+  <a class="menu-panel" href="${esc(href)}" data-reveal style="--reveal-delay:${i * 90}ms">
+    <p class="menu-panel__count">${esc(count)}</p>
+    <h3 class="menu-panel__title">${esc(title)}</h3>
+    <div>
+      <ul class="menu-panel__cats">
+        ${categories.map((c) => `<li>${esc(c)}</li>`).join('')}
+      </ul>
+      ${note ? `<p class="small muted" style="margin-top:var(--space-3)">${esc(note)}</p>` : ''}
+    </div>
+    <span class="menu-panel__foot">See the menu ${icon.arrowRight({ size: 16 })}</span>
+  </a>`;
+
 export const EventCard = (e, i = 0) => `
   <article class="event-card" data-reveal style="--reveal-delay:${i * 80}ms">
     <p class="event-card__meta">${esc(e.meta)}</p>
@@ -136,7 +151,7 @@ export const CtaBand = ({
   <section class="section section--tight cta-band">
     <div class="container cta-band__inner">
       <div data-reveal>
-        <p class="eyebrow" style="color:rgba(255,255,255,.8)">${esc(eyebrow)}</p>
+        <p class="eyebrow">${esc(eyebrow)}</p>
         <h2 class="cta-band__title">${title}</h2>
         ${body ? `<p class="cta-band__body">${esc(body)}</p>` : ''}
       </div>

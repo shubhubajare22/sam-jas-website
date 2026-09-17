@@ -2,6 +2,7 @@ import { Page } from '../layouts/page.js';
 import { PageHero } from '../components/pagehero.js';
 import { SectionHead, Button, esc } from '../components/primitives.js';
 import { EventCard, CtaBand } from '../components/cards.js';
+import { EventMarquee } from '../components/marquee.js';
 import { icon } from '../components/icons.js';
 import { eventFormats } from '../data/brand.js';
 import { contact } from '../data/site.js';
@@ -18,12 +19,7 @@ ${PageHero({
   </div>`,
 })}
 
-<div class="marquee" aria-hidden="true">
-  <div class="marquee__track">
-    <img src="/assets/events-strip.jpg" width="1920" height="450" decoding="async" alt="">
-    <img src="/assets/events-strip.jpg" width="1920" height="450" decoding="async" alt="">
-  </div>
-</div>
+${EventMarquee()}
 <div class="container">
   <p class="small muted" style="margin-top:1rem">
     Seminars, workshops and stage sessions conducted by Sam and Jas across India.
