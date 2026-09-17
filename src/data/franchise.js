@@ -1,0 +1,248 @@
+/**
+ * Franchise models and the location directory.
+ * Transcribed from /franchisee-model and /franchisee-list.
+ * Investment, tenure, territory and royalty are the source's own figures.
+ */
+
+export const franchiseModels = [
+  {
+    id: 1,
+    name: 'Master Franchisee',
+    kicker: 'State-level partnership',
+    investment: '₹ 5,00,000',
+    tenure: '5 years',
+    territory: 'Any Indian State / Union Territory',
+    royalty: '50% of every franchisee fee from the said territory',
+    responsibilities: [
+      'Recruiting new franchisees',
+      'Business development',
+      'Support and training to franchisee partners',
+      'Marketing and branding',
+      'Compliance by the franchisees',
+      'Relationship management',
+      'Financial management',
+    ],
+    forWhom: 'Operators who want to build and run the Sam and Jas network across a whole state.',
+  },
+  {
+    id: 2,
+    name: 'Individual Academy',
+    kicker: 'Teach the Sam and Jas syllabus',
+    investment: '₹ 1,00,000',
+    tenure: '3 years',
+    territory: '10 km radius',
+    royalty: '₹ 10,000 per month for exclusive marketing on brand platforms',
+    responsibilities: [
+      'Teaching courses in hair and makeup to the brand standards and syllabus',
+      'Local marketing, promotions and branding',
+      'Adhering to the contract terms and conditions',
+    ],
+    forWhom: 'Trainers and educators who want an academy of their own under the brand.',
+  },
+  {
+    id: 3,
+    name: 'Individual Salon',
+    kicker: 'Run a Sam and Jas salon',
+    investment: '₹ 1,00,000',
+    tenure: '3 years',
+    territory: '3 km radius',
+    royalty: '₹ 10,000 per month for exclusive marketing on brand platforms',
+    responsibilities: [
+      'Providing top-class services in hair and makeup',
+      'Local marketing, promotions and branding',
+      'Adhering to the contract terms and conditions',
+    ],
+    forWhom: 'Salon owners and operators who want brand, systems and standards behind them.',
+  },
+  {
+    id: 4,
+    name: 'Academy & Salon',
+    kicker: 'Both, on one site',
+    investment: '₹ 1,50,000',
+    tenure: '3 years',
+    territory: '10 km (academy) & 3 km (salon)',
+    royalty: '₹ 15,000 per month for exclusive marketing on brand platforms',
+    responsibilities: [
+      'Teaching courses in hair and makeup to the brand standards and syllabus',
+      'Providing top-class services in hair and makeup',
+      'Local marketing, promotions and branding',
+      'Adhering to the contract terms and conditions',
+    ],
+    forWhom: 'Partners who want the academy to feed the salon and the salon to prove the academy.',
+    recommended: true,
+  },
+];
+
+/** Directory. `type` drives the filter on /locations.html */
+export const locations = [
+  {
+    type: 'academy',
+    badge: 'Head Office',
+    city: 'Mumbai',
+    area: 'Andheri West',
+    state: 'Maharashtra',
+    entity: 'Sam and Jas Hair & Makeup Pvt Ltd',
+    partner: null,
+    address:
+      '33, Aram Nagar Part 1, Behind 7 Bunglows Gurudwara, Opp Dariya Mahal, Near Kino Cottage Bus stop, J P Road, Andheri West, Mumbai 400061',
+    phones: ['+919152967136', '+919920537343'],
+  },
+  {
+    type: 'academy',
+    badge: 'Own Branch',
+    city: 'Dombivli',
+    area: 'Dombivli West',
+    state: 'Maharashtra',
+    entity: 'Sam and Jas Hair & Makeup Pvt Ltd · Sam and Jas Salon & Spa Pvt Ltd',
+    partner: null,
+    address:
+      'First Floor, Bilvakunj Apartment, Next To Everest Hall, Opp Platform No. 1, Middle Railway Bridge, M G Road, Dombivli West 421202',
+    phones: ['+919152967136', '+919920537343'],
+  },
+  {
+    type: 'academy',
+    city: 'Pune',
+    area: 'Swargate',
+    state: 'Maharashtra',
+    entity: 'Hair & Makeup Academy',
+    partner: 'Vandana Datta',
+    address:
+      'Son. 697 98 building no 2/9, Near Nagbramha Hotel, Maharshi Nagar, Swargate, Pune',
+    phones: ['+919323950821'],
+  },
+  {
+    type: 'academy',
+    city: 'Pune',
+    area: 'Akurdi',
+    state: 'Maharashtra',
+    entity: 'Hair & Makeup Academy',
+    partner: 'Shubham Nevkar (Shivam)',
+    address:
+      'Saraswati Apartments, Near Sanjay Kale Ground, Central Excise Staff Colony, Sector No. 28, Pradhikaran, Akurdi, Pimpri-Chinchwad 411044',
+    phones: ['+919284597175', '+918149227175'],
+  },
+  {
+    type: 'academy',
+    city: 'Pune',
+    area: 'Talegaon Dabhade',
+    state: 'Maharashtra',
+    entity: 'Hair & Makeup Academy',
+    partner: 'Milind Rajendra Khandagale',
+    address:
+      'Namrata Royal Building, Shop No. 04, Near Maruti Mandir Chowk, Talegaon Dabhade, Taluka Vadgaon Maval, Pune 410506',
+    phones: ['+919730089720'],
+  },
+  {
+    type: 'academy',
+    city: 'Pune',
+    area: 'Rajgurunagar',
+    state: 'Maharashtra',
+    entity: 'Hair & Makeup Academy',
+    partner: 'Seema Ashok Bomble',
+    address:
+      '1st Floor of Happy House, Near water tank, Opp Shree Mart, Wada Road, Rajgurunagar, Pune',
+    phones: ['+919561322325'],
+  },
+  {
+    type: 'academy',
+    city: 'Pune',
+    area: 'New Sanghvi',
+    state: 'Maharashtra',
+    entity: 'Hair & Makeup Academy',
+    partner: 'Pawan Thakare, Ashwini Shinde',
+    address:
+      'Flat no. 12, S.No. 48 2/1, Plot No. 5, Ashoka Classic, Near Bank of Baroda and Star Market, Krishna Chowk, New Sanghvi, Pune 411027',
+    phones: ['+919112058596', '+917517556864'],
+  },
+  {
+    type: 'academy',
+    city: 'Nashik',
+    area: 'College Road',
+    state: 'Maharashtra',
+    entity: 'Hair & Makeup Academy',
+    partner: 'Mayur (Lokesh) Bapu Nikam',
+    address:
+      '1st Floor, Rishikesh Apartments, Bhonsala Circle, College Road, Nashik 422005',
+    phones: ['+918149253804', '+918180800803'],
+  },
+  {
+    type: 'academy',
+    city: 'Lucknow',
+    area: 'Vidhan Sabha Marg',
+    state: 'Uttar Pradesh',
+    entity: 'Hair & Makeup Academy',
+    partner: 'Smita Jaiswal',
+    address: '28, Almas Star Tower, Vidhan Sabha Marg, Lucknow 226001',
+    phones: ['+919839521462'],
+  },
+  {
+    type: 'academy',
+    city: 'Sultanpur',
+    area: 'Payagipur',
+    state: 'Uttar Pradesh',
+    entity: 'Hair & Makeup Academy',
+    partner: 'Savita Mishra',
+    address:
+      'Payagipur Chouraha, Near Suramya Hospital, Village & Post Payagipur, Dist. Sultanpur 228001',
+    phones: ['+917393945120'],
+  },
+  {
+    type: 'academy',
+    city: 'Pratapgarh',
+    area: 'Kapoor Chauraha',
+    state: 'Uttar Pradesh',
+    entity: 'Hair & Makeup Academy',
+    partner: 'Shanu Salmani',
+    address: 'Kapoor Chauraha, Mandir ke samne, Dist. Pratapgarh 230001',
+    phones: ['+919004798620'],
+  },
+  {
+    type: 'academy',
+    city: 'Raebareli',
+    area: 'Rana Nagar',
+    state: 'Uttar Pradesh',
+    entity: 'Hair & Makeup Academy',
+    partner: 'Archana Verma',
+    address: 'Near BOB Bank, Rana Nagar, Kanpur Road, Raebareli',
+    phones: ['+918318585696'],
+  },
+  {
+    type: 'academy',
+    city: 'Kolkata',
+    area: 'Kaikhali – VIP',
+    state: 'West Bengal',
+    entity: 'Hair & Makeup Academy',
+    partner: 'Sayyada Fatma',
+    address: 'Kaikhali – VIP, Bhogir Bagan, PS Baguihati, P.O. Airport, Kolkata 700052',
+    phones: ['+919836666373'],
+  },
+  {
+    type: 'salon',
+    city: 'Pune',
+    area: 'Kharadi',
+    state: 'Maharashtra',
+    entity: 'Sam and Jas Salon & Spa Pvt Ltd',
+    partner: 'Samir Das',
+    address: 'Shop No. 25, Parmar Square, Near Reliance Smart, Kharadi, Pune 411014',
+    phones: ['+918459957727'],
+  },
+  {
+    type: 'salon',
+    city: 'Pune',
+    area: 'Mundwa',
+    state: 'Maharashtra',
+    entity: 'Sam and Jas Salon & Spa Pvt Ltd',
+    partner: 'Sanoj Thakur',
+    address: 'Shop No. 32, Mantra Insignia, Keshav Nagar, Mundwa, Pune 411036',
+    phones: ['+919921035105'],
+  },
+];
+
+/** Counts are derived from the directory above, never hand-written. */
+export const locationStats = {
+  total: locations.length,
+  academies: locations.filter((l) => l.type === 'academy').length,
+  salons: locations.filter((l) => l.type === 'salon').length,
+  cities: [...new Set(locations.map((l) => l.city))].length,
+  states: [...new Set(locations.map((l) => l.state))].length,
+};

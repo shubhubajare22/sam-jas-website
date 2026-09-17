@@ -1,0 +1,186 @@
+/* ==========================================================================
+   Base — reset, typography primitives, layout primitives, a11y
+   ========================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + 1.5rem);
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  font-synthesis-weight: none;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;               /* belt and braces against horizontal scroll */
+}
+
+img, svg, video { display: block; max-width: 100%; height: auto; }
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: var(--track-display);
+  line-height: var(--lh-snug);
+  margin: 0;
+  text-wrap: balance;             /* progressive: UA-controlled, natural fallback */
+}
+h1 { font-size: var(--fs-display); line-height: var(--lh-tight); }
+h2 { font-size: var(--fs-h2); }
+h3 { font-size: var(--fs-h3); }
+h4 { font-size: var(--fs-h4); font-family: var(--font-body); font-weight: 600; letter-spacing: 0; }
+
+p { margin: 0 0 1em; max-width: var(--measure); text-wrap: pretty; }
+p:last-child { margin-bottom: 0; }
+
+a { color: inherit; }
+ul, ol { margin: 0; padding: 0; }
+li { list-style: none; }
+
+/* Long user content, URLs and IDs reflow instead of forcing a scrollbar */
+.wrap-anywhere { overflow-wrap: anywhere; min-width: 0; }
+
+/* ---- Focus ------------------------------------------------------------- */
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+:is(.section--ink, .pagehero, .hero, .footer, .mobilenav, .header) :focus-visible { outline-color: var(--focus-on-ink); }
+
+.skip-link {
+  position: absolute;
+  left: var(--gutter); top: 0;
+  z-index: 999;
+  transform: translateY(-140%);
+  background: var(--ink);
+  color: var(--on-ink);
+  padding: 0.85rem 1.25rem;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  border-radius: 0 0 var(--radius) var(--radius);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.skip-link:focus-visible { transform: translateY(0); }
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---- Layout primitives -------------------------------------------------- */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+.container--narrow { max-width: var(--container-narrow); }
+
+.section { padding-block: var(--section-y); position: relative; }
+.section--tight { padding-block: calc(var(--section-y) * 0.62); }
+
+.section--ink {
+  background: var(--ink);
+  color: var(--on-ink);
+}
+:is(.section--ink, .pagehero, .hero) :is(h1, h2, h3) { color: var(--on-ink); }
+.section--paper-2 { background: var(--paper-2); }
+
+/* A rule that reads as editorial furniture, not a border */
+.rule { height: 1px; background: var(--line); border: 0; margin: 0; }
+:is(.section--ink, .pagehero, .hero) .rule { background: var(--line-ink); }
+
+/* ---- Type utilities ----------------------------------------------------- */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7em;
+  font-family: var(--font-body);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--scarlet-text);
+  margin: 0 0 var(--space-3);
+}
+.eyebrow::before {
+  content: '';
+  width: 2.25rem; height: 1px;
+  background: currentColor;
+  flex: none;
+}
+.eyebrow--plain::before { display: none; }
+:is(.section--ink, .pagehero, .hero) .eyebrow { color: var(--scarlet-on-ink); }
+
+.lede {
+  font-size: var(--fs-lede);
+  line-height: 1.5;
+  color: var(--text-muted);
+  max-width: 46ch;
+}
+:is(.section--ink, .pagehero, .hero) .lede { color: var(--on-ink-muted); }
+
+.muted { color: var(--text-muted); }
+:is(.section--ink, .pagehero, .hero) .muted { color: var(--on-ink-muted); }
+.small { font-size: var(--fs-sm); }
+
+.display { font-family: var(--font-display); letter-spacing: var(--track-display); }
+.italic-accent { font-style: italic; font-variation-settings: 'ital' 1; }
+
+/* Numerals in tables and stats never jitter */
+.tnum { font-variant-numeric: tabular-nums; }
+
+/* ---- Section header ----------------------------------------------------- */
+.section-head {
+  display: grid;
+  gap: var(--space-3) var(--space-6);
+  margin-bottom: var(--space-6);
+}
+@media (min-width: 900px) {
+  .section-head--split {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    align-items: end;
+  }
+  .section-head--split .section-head__aside { padding-bottom: 0.4rem; }
+}
+
+/* ---- Motion ------------------------------------------------------------- */
+/* Scoped to .js so the page is fully visible when JavaScript does not run.
+   The class is set by an inline script in <head> before first paint. */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity var(--dur-slow) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.js [data-reveal].is-revealed { opacity: 1; transform: none; }
+/* Content inside the first viewport is at rest on load — it must never fade in
+   after paint, which would leave a shared link or thumbnail showing an empty page. */
+.js [data-reveal].is-instant { transition: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .js [data-reveal] { opacity: 1; transform: none; }
+  .marquee__track { animation: none !important; transform: none !important; }
+}
